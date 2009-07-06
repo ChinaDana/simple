@@ -135,7 +135,10 @@ public enum TokenKind {
   TOK_$INTERFACE("$Interface"),
   TOK_$OBJECT("$Object"),
   TOK_$PROPERTIES("$Properties"),
-  TOK_$SOURCE("$Source");
+  TOK_$SOURCE("$Source"),
+
+  // For syntax highlighters it is useful to have a scan mode that emits comment tokens
+  TOK_COMMENT("'");
 
   // Token string value
   private final String string;

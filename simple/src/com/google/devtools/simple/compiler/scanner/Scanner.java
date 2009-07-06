@@ -94,6 +94,9 @@ public final class Scanner {
   // Simple source file.
   private boolean propertiesMode;
 
+  // Generates a token for comments if true
+  private boolean generateCommentToken;
+  
   // Instance of the keyword recognizer.
   private static final Keywords keywords = new Keywords();
 
@@ -254,6 +257,15 @@ public final class Scanner {
     this(compiler, 0, source);
   }
 
+  /**
+   * Makes scanner generate a token for comments it finds.
+   *
+   * @param commentToken  generates comment token if {@code true}
+   */
+  public void generateCommentToken(boolean commentToken) {
+    generateCommentToken = commentToken;
+  }
+  
   /**
    * Special source position for errors without a particular location within
    * a source file.
@@ -871,7 +883,11 @@ public final class Scanner {
 
           case '\'':
             skipLineComment();
-            continue;
+            if (!generateCommentToken) {
+              continue;
+            }
+            tokenKind = TokenKind.TOK_COMMENT;
+            break;
 
           case '\"':
             scanStringLiteral();
