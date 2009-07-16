@@ -47,19 +47,24 @@ public class ParserTest extends TestCase {
    */
   public void testErrorInEventHandlerDeclaration() {
     // TODO: parser should complain about Int, should be Integer
-    Scanner scanner = new Scanner(compiler, "Dim A As Int\n"
-        + "\n"
-        + "Event Form1.Initialize\n" // should be Event Form1.Initialize()
-        + "  A = 1\n"
-        + "End Event\n"
-        + "\n"
-        + "$Properties\n"
-        + "  $Source $Object\n"
-        + "$End $Properties\n");
+    try {
+      Scanner scanner = new Scanner(compiler, "Dim A As Int\n"
+          + "\n"
+          + "Event Form1.Initialize\n" // should be Event Form1.Initialize()
+          + "  A = 1\n"
+          + "End Event\n"
+          + "\n"
+          + "$Properties\n"
+          + "  $Source $Object\n"
+          + "$End $Properties\n");
+  
+      Parser parser = new Parser(compiler, scanner, "does.not.matter");
+      parser.parse();
 
-    Parser parser = new Parser(compiler, scanner, "does.not.matter");
-
-    parser.parse();
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
+    }
 
     assertEquals(1, compiler.getErrorCount());
   }
@@ -69,20 +74,25 @@ public class ParserTest extends TestCase {
    * presence of () after the New operator for objects (instead of arrays).
    */
   public void testErrorInNewOperator() {
-    Scanner scanner = new Scanner(compiler, "Dim A As Int\n"
-        + "\n"
-        + "Event Form1.Initialize\n" // should be Event Form1.Initialize()
-        + "  Dim n As Object\n"
-        + "  n = New Object()\n"
-        + "End Event\n"
-        + "\n"
-        + "$Properties\n"
-        + "  $Source $Object\n"
-        + "$End $Properties\n");
+    try {
+      Scanner scanner = new Scanner(compiler,
+          "Sub Bar()\n"
+          + "  Dim n As Object\n"
+          + "  n = New Object()\n"
+          + "End Sub\n"
+          + "\n"
+          + "$Properties\n"
+          + "  $Source $Object\n"
+          + "$End $Properties\n");
+  
+      Parser parser = new Parser(compiler, scanner, "does.not.matter");
+      parser.parse();
+      compiler.resolve();
 
-    Parser parser = new Parser(compiler, scanner, "does.not.matter");
-
-    parser.parse();
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
+    }
 
     assertEquals(1, compiler.getErrorCount());
   }

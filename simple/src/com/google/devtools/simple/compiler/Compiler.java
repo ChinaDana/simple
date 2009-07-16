@@ -667,10 +667,13 @@ public final class Compiler {
     return platform;
   }
 
-  /*
+  /**
    * Triggers the symbol resolution phase of the compilation.
+   *
+   * Note: Visible for testing only! Do not call from outside of this class
+   * unless for testing purposes.
    */
-  private void resolve() {
+  public void resolve() {
     // First resolve declarations
     for (ObjectSymbol objectSymbol: objects) {
       objectSymbol.resolve(this, null);
