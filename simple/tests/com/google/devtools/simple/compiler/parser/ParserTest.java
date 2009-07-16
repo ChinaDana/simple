@@ -50,7 +50,30 @@ public class ParserTest extends TestCase {
     Scanner scanner = new Scanner(compiler, "Dim A As Int\n"
         + "\n"
         + "Event Form1.Initialize\n" // should be Event Form1.Initialize()
-        + " A = 1\n"
+        + "  A = 1\n"
+        + "End Event\n"
+        + "\n"
+        + "$Properties\n"
+        + "  $Source $Object\n"
+        + "$End $Properties\n");
+
+    Parser parser = new Parser(compiler, scanner, "does.not.matter");
+
+    parser.parse();
+
+    assertEquals(1, compiler.getErrorCount());
+  }
+
+  /**
+   * Tests whether the Simple parser correctly (without exception) handles the
+   * presence of () after the New operator for objects (instead of arrays).
+   */
+  public void testErrorInNewOperator() {
+    Scanner scanner = new Scanner(compiler, "Dim A As Int\n"
+        + "\n"
+        + "Event Form1.Initialize\n" // should be Event Form1.Initialize()
+        + "  Dim n As Object\n"
+        + "  n = New Object()\n"
         + "End Event\n"
         + "\n"
         + "$Properties\n"

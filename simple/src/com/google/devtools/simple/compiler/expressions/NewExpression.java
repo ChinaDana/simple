@@ -72,10 +72,10 @@ public final class NewExpression extends Expression {
         Expression dimension = dimensions.get(i);
         if (dimension == null) {
           compiler.error(getPosition(), Error.errArrayDimensionExpected);
+        } else {
+          dimensions.set(i, dimension.resolve(compiler, currentFunction).checkType(compiler,
+              IntegerType.integerType));
         }
-
-        dimensions.set(i, dimension.resolve(compiler, currentFunction).checkType(compiler,
-            IntegerType.integerType));
       }
     } else if (!type.isObjectType()) {
       compiler.error(getPosition(), Error.errObjectOrArrayTypeNeeded);
