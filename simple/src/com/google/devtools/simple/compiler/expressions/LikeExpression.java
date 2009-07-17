@@ -43,8 +43,10 @@ public final class LikeExpression extends ComparisonExpression {
 
   @Override
   public Expression resolve(Compiler compiler, FunctionSymbol currentFunction) {
-    rightOperand = rightOperand.checkType(compiler, StringType.stringType);
-    leftOperand = leftOperand.checkType(compiler, StringType.stringType);
+    leftOperand = leftOperand.resolve(compiler, currentFunction).checkType(compiler,
+        StringType.stringType);
+    rightOperand = rightOperand.resolve(compiler, currentFunction).checkType(compiler,
+        StringType.stringType);
 
     type = BooleanType.booleanType;
 

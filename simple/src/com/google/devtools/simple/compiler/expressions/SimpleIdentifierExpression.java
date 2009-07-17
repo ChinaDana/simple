@@ -25,6 +25,7 @@ import com.google.devtools.simple.compiler.symbols.ObjectSymbol;
 import com.google.devtools.simple.compiler.symbols.SymbolWithType;
 import com.google.devtools.simple.compiler.symbols.synthetic.ErrorSymbol;
 import com.google.devtools.simple.compiler.types.ObjectType;
+import com.google.devtools.simple.compiler.types.synthetic.ErrorType;
 
 /**
  * This class represents an identifier expression without any further explicit
@@ -52,8 +53,7 @@ public final class SimpleIdentifierExpression extends IdentifierExpression {
 
     // Check result
     if (!checkFound(compiler)) {
-      resolvedIdentifier = new ErrorSymbol(identifier);
-      scope.enterSymbol(resolvedIdentifier);
+      createErrorIdentifier();
     }
 
     resolvedIdentifier.resolve(compiler, currentFunction);
@@ -67,9 +67,7 @@ public final class SimpleIdentifierExpression extends IdentifierExpression {
         // This indicates that we looked up the 'wrong' symbol, e.g. one symbol hiding another from
         // an outer scope which would have been the 'correct' symbol
         compiler.error(getPosition(), Error.errInstanceMemberWithoutMe, identifier);
-        resolvedIdentifier = new ErrorSymbol(identifier);
-        scope.enterSymbol(resolvedIdentifier);
-
+        createErrorIdentifier();
       } else {
         ObjectSymbol currentClass = currentFunction.getDefiningObject();
   
@@ -98,6 +96,12 @@ public final class SimpleIdentifierExpression extends IdentifierExpression {
     return fold(compiler, currentFunction);
   }
 
+  private void createErrorIdentifier() {
+    resolvedIdentifier = new ErrorSymbol(identifier);
+    scope.enterSymbol(resolvedIdentifier);
+    type = ErrorType.errorType;
+  }
+  
   @Override
   public String toString() {
     return qualifyingExpression != null ? qualifyingExpression.toString() + '.' + identifier :

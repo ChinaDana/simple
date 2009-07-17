@@ -16,6 +16,8 @@
 
 package com.google.devtools.simple.runtime.helpers;
 
+import java.util.regex.Pattern;
+
 /**
  * Helper methods for performing expression operations that are too complicated
  * to inline.
@@ -58,8 +60,7 @@ public final class ExprHelpers {
    *          otherwise
    */
   public static boolean like(String string, String pattern) {
-    // TODO: needs to be implemented
-    throw new UnsupportedOperationException();
+    return Pattern.matches(pattern, string);
   }
 
   /**

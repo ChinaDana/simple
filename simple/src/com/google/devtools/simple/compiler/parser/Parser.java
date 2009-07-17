@@ -107,6 +107,7 @@ import com.google.devtools.simple.compiler.types.StringType;
 import com.google.devtools.simple.compiler.types.Type;
 import com.google.devtools.simple.compiler.types.UnresolvedType;
 import com.google.devtools.simple.compiler.types.VariantType;
+import com.google.devtools.simple.compiler.types.synthetic.ErrorType;
 import com.google.devtools.simple.compiler.util.Signatures;
 import com.google.devtools.simple.util.Preconditions;
 
@@ -1773,7 +1774,7 @@ public final class Parser {
   private void parseFunctionDeclaration(boolean isStatic) {
     Preconditions.checkState(scanner.getToken() == TokenKind.TOK_FUNCTION);
 
-    FunctionSymbol function;
+    FunctionSymbol function = null;
     try {
       // Parse name part of function declaration
       scanner.nextToken();  // Skip 'Function'
@@ -1801,21 +1802,23 @@ public final class Parser {
       } else {
         parseFormalArgumentList(function);
       }
-  
-      if (scanner.getToken() == TokenKind.TOK_AS) {
-        scanner.nextToken(); // Skip 'As'
 
-        function.setResultType(parseType());
-      }
+      acceptAndSkip(TokenKind.TOK_AS);
+      function.setResultType(parseType());
+
       acceptAndSkipEndOfStatement();
 
     } catch (SyntaxError se) {
       resyncAfterSyntaxError();
       // Allocate a dummy function symbol so that we can continue parsing
-      function = isStatic ?
-          new ObjectFunctionSymbol(Scanner.NO_POSITION, currentObjectSymbol, "") :
-          new InstanceFunctionSymbol(Scanner.NO_POSITION, currentObjectSymbol, "");
-      function.setIsCompiled();
+      if (function ==  null) {
+        function = isStatic ?
+            new ObjectFunctionSymbol(Scanner.NO_POSITION, currentObjectSymbol, "") :
+            new InstanceFunctionSymbol(Scanner.NO_POSITION, currentObjectSymbol, "");
+        function.setIsCompiled();
+        currentObjectSymbol.addFunction(function);
+      }
+      function.setResultType(ErrorType.errorType);
     }
 
     // Parse function body (non-interface source files only)
