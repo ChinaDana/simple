@@ -35,6 +35,7 @@ Static Sub RunSmokeTests()
     tests.Add(New com.google.devtools.simple.smoketest.expressions.LikeExpressionsTest)
     tests.Add(New com.google.devtools.simple.smoketest.expressions.NewExpressionsTest)
     tests.Add(New com.google.devtools.simple.smoketest.expressions.OrExpressionsTest)
+    tests.Add(New com.google.devtools.simple.smoketest.expressions.TypeOfExpressionsTest)
     tests.Add(New com.google.devtools.simple.smoketest.expressions.XorExpressionsTest)
 
     ' Scopes tests

@@ -37,6 +37,8 @@ public final class VariantType extends Type {
   protected final static String VARIANT_PACKAGE = Compiler.RUNTIME_ROOT_INTERNAL + "/variants";
 
   public final static String VARIANT_INTERNAL_NAME = VARIANT_PACKAGE + "/Variant";
+  public final static String UNINITIALIZED_VARIANT_INTERNAL_NAME =
+      VARIANT_PACKAGE + "/UninitializedVariant";
   public final static String VARIANT_NAME = VARIANT_INTERNAL_NAME.replace('/', '.');
 
   private final static String VARIANT_BINOP_SIGNATURE =
@@ -44,6 +46,7 @@ public final class VariantType extends Type {
   private final static String VARIANT_CMPOP_SIGNATURE = "(L" + VARIANT_INTERNAL_NAME + ";)I";
   private final static String VARIANT_IDENTICALOP_SIGNATURE = "(L" + VARIANT_INTERNAL_NAME + ";)Z";
   private final static String VARIANT_LIKEOP_SIGNATURE = "(L" + VARIANT_INTERNAL_NAME + ";)Z";
+  private final static String VARIANT_TYPEOFOP_SIGNATURE = "(Ljava/lang/String;)Z";
   private final static String VARIANT_UNOP_SIGNATURE = "()L" + VARIANT_INTERNAL_NAME + ";";
 
   // Internal name of runtime support class for Variant reference parameters
@@ -79,7 +82,8 @@ public final class VariantType extends Type {
 
   @Override
   public void generateDefaultInitializationValue(Method m) {
-    m.generateInstrAconstNull();
+    m.generateInstrInvokestatic(UNINITIALIZED_VARIANT_INTERNAL_NAME, "getUninitializedVariant",
+        "()L" + UNINITIALIZED_VARIANT_INTERNAL_NAME + ";");
   }
 
   @Override
@@ -156,18 +160,6 @@ public final class VariantType extends Type {
   @Override
   public void generateStoreArray(Method m) {
     m.generateInstrAastore();
-  }
-
-  @Override
-  public void generateConst1(Method m) {
-    // TODO: needs to be implemented
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public void generateConstM1(Method m) {
-    // TODO: needs to be implemented
-    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -295,8 +287,8 @@ public final class VariantType extends Type {
 
   @Override
   public void generateTypeOf(Method m, String internalName) {
-    // TODO: needs to be implemented
-    throw new UnsupportedOperationException();
+    m.generateInstrLdc(internalName);
+    m.generateInstrInvokevirtual(VARIANT_INTERNAL_NAME, "typeof", VARIANT_TYPEOFOP_SIGNATURE);
   }
 
   @Override

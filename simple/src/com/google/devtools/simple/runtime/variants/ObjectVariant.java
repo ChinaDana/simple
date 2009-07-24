@@ -66,11 +66,6 @@ public final class ObjectVariant extends Variant {
     return value == rightOp.getObject();
   }
 
-  @Override
-  public boolean typeof(Class<?> type) {
-    return type.isInstance(value);
-  }
-
   /*
    * Converts a variant value to its equivalent Java value.
    */
@@ -111,8 +106,7 @@ public final class ObjectVariant extends Variant {
    */
   private Variant convertObject(Class<?> type, Object object) {
     if (type == Void.TYPE) {
-      // TODO: maybe an empty variant would be better?
-      return null;
+      return UninitializedVariant.getUninitializedVariant();
     }
     if (type == Boolean.TYPE) {
       return BooleanVariant.getBooleanVariant(((Boolean)object).booleanValue());

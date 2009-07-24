@@ -62,7 +62,7 @@ public final class DateType extends Type {
 
   @Override
   public void generateDefaultInitializationValue(Method m) {
-    m.generateInstrLdc(0);
+    m.generateInstrAconstNull();
   }
 
   @Override

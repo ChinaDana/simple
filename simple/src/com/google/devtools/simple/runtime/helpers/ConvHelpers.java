@@ -231,7 +231,7 @@ public final class ConvHelpers {
     } else if (s.equals("False")) {
       return false;
     } else {
-      throw new ConversionError();
+      return string2double(s) != 0;
     }
   }
 

@@ -21,6 +21,7 @@ import com.google.devtools.simple.compiler.Compiler;
 import com.google.devtools.simple.compiler.symbols.FunctionSymbol;
 import com.google.devtools.simple.compiler.types.BooleanType;
 import com.google.devtools.simple.compiler.types.Type;
+import com.google.devtools.simple.compiler.types.VariantType;
 
 /**
  * This class represents a type check operation.
@@ -49,6 +50,10 @@ public final class TypeOfExpression extends UnaryExpression {
   public Expression resolve(Compiler compiler, FunctionSymbol currentFunction) {
     super.resolve(compiler, currentFunction);
     expectedType.resolve(compiler);
+    if ((!expectedType.isArrayType() && !expectedType.isObjectType()) ||
+        (!operand.type.isArrayType() && !operand.type.isObjectType())) {
+      operand = operand.checkType(compiler, VariantType.variantType);
+    }
 
     type = BooleanType.booleanType;
 

@@ -23,7 +23,7 @@ Sub Run()
     ' We do this by accessing a data member or array element and if there is no crash
     ' we conclude that it worked.
 
-    ' TODO(herbertc): check object allocation
+    ' TODO: check object allocation
 
     Dim singleDimArray As Integer() : singleDimArray = New Integer(5) : singleDimArray(4) = 42 
     Dim multiDimArray As Integer(,) : multiDimArray = New Integer(5, 3) : multiDimArray(4, 2) = 42 

@@ -54,7 +54,7 @@ public final class ExpressionStatement extends Statement {
     }
 
     if (expression instanceof ExpressionValueUnused) {
-      ((ExpressionValueUnused) expression).valueUnused();
+      ((ExpressionValueUnused) expression).valueUnused(compiler);
     }
   }
 

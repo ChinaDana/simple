@@ -29,17 +29,17 @@ public final class DateVariant extends Variant {
   private Calendar value;
 
   /**
-   * Factory method for creating object variants.
+   * Factory method for creating date variants.
    * 
-   * @param value  object value
-   * @return  new object variant
+   * @param value  date
+   * @return  new date variant
    */
   public static final DateVariant getDateVariant(Calendar value) {
     return new DateVariant(value);
   }
 
   /*
-   * Creates a new object variant.
+   * Creates a new date variant.
    */
   private DateVariant(Calendar value) {
     super(VARIANT_DATE);
@@ -64,10 +64,5 @@ public final class DateVariant extends Variant {
     }
 
     return value.compareTo(rightOp.getDate());
-  }
-
-  @Override
-  public boolean typeof(Class<?> type) {
-    return type.isInstance(value);
   }
 }

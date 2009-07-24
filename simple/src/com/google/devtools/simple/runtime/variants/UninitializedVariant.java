@@ -14,22 +14,30 @@
  * limitations under the License.
  */
 
-package com.google.devtools.simple.compiler.expressions;
-
-import com.google.devtools.simple.compiler.Compiler;
+package com.google.devtools.simple.runtime.variants;
 
 /**
- * Expression subclasses that need to know whether the value that they
- * represent is not used, need to implement this interface.
- *
+ * Uninitialized variant implementation.
+ * 
  * @author Herbert Czymontek
  */
-public interface ExpressionValueUnused {
+public final class UninitializedVariant extends Variant {
+
+  private static UninitializedVariant UNINITIALIZED_VARIANT = new UninitializedVariant();
+
   /**
-   * Will be invoked when analysis determines this expression's value is unused
-   * (will be discarded).
-   *
-   * @param compiler  current compiler instance
+   * Factory method for creating object variants.
+   * 
+   * @return  new uninitialized variant
    */
-  void valueUnused(Compiler compiler);
+  public static final UninitializedVariant getUninitializedVariant() {
+    return UNINITIALIZED_VARIANT;
+  }
+
+  /*
+   * Creates a new uninitialized variant.
+   */
+  private UninitializedVariant() {
+    super(VARIANT_UNINITIALIZED);
+  }
 }

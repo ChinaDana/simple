@@ -41,14 +41,14 @@ Function Name() As String
 End Function
 
 Sub Run()
-    ' TODO(herbertc): move these initializations into an initialization event handler
+    ' TODO: move these initializations into an initialization event handler
     loopCondition = True
 
     testCollection = New Collection
     testCollection.Add("non-empty")
 
     ' Event level Exit
-    ' TODO(herbertc): add tests
+    ' TODO: add tests
 
     ' Function level Exit
     AssertTrue(FunctionExit(False) = WITHOUT)

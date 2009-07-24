@@ -575,7 +575,7 @@ public final class Parser {
         expr = parseExpression(PRIO_COMPARISON);
         exprStartPosition = scanner.getTokenStartPosition();
         acceptAndSkip(TokenKind.TOK_IS);
-        expr = new TypeOfExpression(exprStartPosition, expr, parseNonArrayType());
+        expr = new TypeOfExpression(exprStartPosition, expr, parseType());
         break;
     }
 

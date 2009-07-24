@@ -182,8 +182,7 @@ public class ObjectType extends Type implements TypeWithScope {
 
   @Override
   public void generateTypeOf(Method m, String internalName) {
-    // TODO: needs to be implemented
-    throw new UnsupportedOperationException();
+    m.generateInstrInstanceof(internalName);
   }
 
   @Override

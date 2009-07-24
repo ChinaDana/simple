@@ -19,6 +19,8 @@ package com.google.devtools.simple.runtime.variants;
 import com.google.devtools.simple.runtime.errors.ConversionError;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Superclass for the variant runtime support classes.
@@ -31,9 +33,128 @@ import java.util.Calendar;
  */
 public abstract class Variant {
 
+  /*
+   * Helpers for TypeOf operation
+   */
+  private static interface TypeOfChecker {
+    boolean check(Variant v);
+  }
+
+  static Map<String, TypeOfChecker> TYPEOF_CHECKER_MAP = new HashMap<String, TypeOfChecker>();
+  static {
+    TYPEOF_CHECKER_MAP.put("java/lang/String", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getString();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+
+    TYPEOF_CHECKER_MAP.put("java/util/Calendar", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getDate();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+
+    TYPEOF_CHECKER_MAP.put("Z", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getBoolean();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+
+    TYPEOF_CHECKER_MAP.put("B", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getByte();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+
+    TYPEOF_CHECKER_MAP.put("S", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getShort();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+
+    TYPEOF_CHECKER_MAP.put("I", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getInteger();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+
+    TYPEOF_CHECKER_MAP.put("J", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getLong();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+
+    TYPEOF_CHECKER_MAP.put("F", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getSingle();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+
+    TYPEOF_CHECKER_MAP.put("D", new TypeOfChecker() {
+      @Override
+      public boolean check(Variant v) {
+        try {
+          v.getDouble();
+        } catch (ConversionError e) {
+          return false;
+        }
+        return true;
+      }
+    });
+  }
+  
   /**
    * Base type of variant (using bytes instead of enums to be more compact).
    */
+  protected static final byte VARIANT_UNINITIALIZED = 0;
   protected static final byte VARIANT_BOOLEAN = 1;
   protected static final byte VARIANT_BYTE = 2;
   protected static final byte VARIANT_SHORT = 3;
@@ -303,11 +424,23 @@ public abstract class Variant {
   /**
    * Performs a type check of the variant value.
    * 
-   * @param type  expected type
+   * @param type  internal name of expected type
    * @return  {@code true} if the types match, {@code false} otherwise
    */
-  public boolean typeof(Class<?> type) {
-    throw new ConversionError();
+  public boolean typeof(String internalName) {
+    TypeOfChecker checker = TYPEOF_CHECKER_MAP.get(internalName);
+    if (checker != null) {
+      return checker.check(this);
+    }
+
+    try {
+      return Class.forName(internalName.replace('/', '.')).isInstance(kind == VARIANT_ARRAY ?
+          getArray() : getObject());
+    } catch (ConversionError e) {
+      return false;
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
   }
 
   /**

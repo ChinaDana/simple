@@ -362,11 +362,11 @@ public final class CallExpression extends Expression implements ExpressionValueU
 
   // ExpressionValueUnused implementation
 
-  public void valueUnused() {
+  public void valueUnused(Compiler compiler) {
     resultUnused = true;
     
     if (isVariantArrayAccess) {
-      // TODO: error
+      compiler.error(getPosition(), Error.errAssignmentOrCallExprExpected);
     }
   }
 }
