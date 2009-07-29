@@ -65,7 +65,7 @@ public final class Compiler {
       System.getProperty("os.name").startsWith("Windows") ? ".exe" : "";
 
   // File names and locations
-  private static final String JAVA_HOME = System.getProperty("java.home");
+  private static final String JAVA_HOME = System.getenv("JAVA_HOME");
   private static final String ANDROID_HOME = System.getenv("ANDROID_HOME");
   private static final String SIMPLE_HOME = System.getenv("SIMPLE_HOME");
 
