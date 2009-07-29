@@ -533,8 +533,9 @@ public final class RuntimeLoader {
           JarEntry entry = jarEntries.nextElement();
           String name = entry.getName();
           if (name.endsWith(CLASSFILE_EXTENSION)) {
+            // On Windows platform (and probably always) JarEntry.getName() uses '/' as separator
             analyzeClassFile(name.substring(0,
-                name.length() - CLASSFILE_EXTENSION.length()).replace(File.separatorChar, '.'));
+                name.length() - CLASSFILE_EXTENSION.length()).replace('/', '.'));
           }
         }
       } catch (IOException ioe) {
