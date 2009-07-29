@@ -128,7 +128,7 @@
         <mkdir dir="${dist.zips}"/>
     </target>
 
-	<!--
+    <!--
       - Builds the Simple compiler.
       -->
     <target name="SimpleCompiler" depends="SimpleAndroidRuntime,init"
@@ -146,11 +146,11 @@
           tofile="${build.simplecompiler}/com/google/devtools/simple/compiler/resources/simple.png"/>
     </target>
 
-	<!--
+    <!--
       - Builds the Simple runtime library (for Android).
       -->
     <target name="SimpleAndroidRuntime" depends="init" description="Build Simple runtime libraries">
-        <javac debug="true" destdir="${build.simpleruntime.android}" source="1.6" target="1.6">
+        <javac debug="true" destdir="${build.simpleruntime.android}" source="1.5" target="1.5">
             <compilerarg value="-Xlint"/>
             <src path="${src}"/>
             <include name="com/google/devtools/simple/runtime/"/>
