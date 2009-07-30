@@ -55,7 +55,7 @@
 	<!--
       - Version number.
       -->
-	<property name="version.number" value="0.1.0.dev-build"/>
+	<property name="version.number" value="0.1.1.dev-build"/>
 
 	<!--
       - Definitions for input and output directories.

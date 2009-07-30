@@ -36,7 +36,7 @@ import java.util.List;
  * @author Herbert Czymontek
  * @author Ellen Spertus
  */
-public class OrientationSensorImpl extends ComponentImpl
+public final class OrientationSensorImpl extends ComponentImpl
     implements OrientationSensor, SensorEventListener {
 
   private final SensorManager sensors;

@@ -21,6 +21,7 @@ Static Dim EmailPickerTestsForm As Form
 Static Dim CheckBoxTestsForm As Form
 Static Dim ImageTestsForm As Form
 Static Dim LabelTestsForm As Form
+Static Dim LocationSensorTestsForm As Form
 Static Dim OrientationSensorTestsForm As Form
 Static Dim PanelTestsForm As Form
 Static Dim PasswordTextBoxTestsForm As Form
@@ -61,14 +62,16 @@ Static Function GetTestForm(testIndex As Integer) As Form
     Case 7
       If LabelTestsForm = Nothing Then LabelTestsForm = New LabelTests : GetTestForm = LabelTestsForm
     Case 8
-      If OrientationSensorTestsForm = Nothing Then OrientationSensorTestsForm = New OrientationSensorTests : GetTestForm = OrientationSensorTestsForm
+      If LocationSensorTestsForm = Nothing Then LocationSensorTestsForm = New LocationSensorTests : GetTestForm = LocationSensorTestsForm
     Case 9
-      If PanelTestsForm = Nothing Then PanelTestsForm = New PanelTests : GetTestForm = PanelTestsForm
+      If OrientationSensorTestsForm = Nothing Then OrientationSensorTestsForm = New OrientationSensorTests : GetTestForm = OrientationSensorTestsForm
     Case 10
-      If PasswordTextBoxTestsForm = Nothing Then PasswordTextBoxTestsForm = New PasswordTextBoxTests : GetTestForm = PasswordTextBoxTestsForm
+      If PanelTestsForm = Nothing Then PanelTestsForm = New PanelTests : GetTestForm = PanelTestsForm
     Case 11
-      If RadioButtonTestsForm = Nothing Then RadioButtonTestsForm = New RadioButtonTests : GetTestForm = RadioButtonTestsForm
+      If PasswordTextBoxTestsForm = Nothing Then PasswordTextBoxTestsForm = New PasswordTextBoxTests : GetTestForm = PasswordTextBoxTestsForm
     Case 12
+      If RadioButtonTestsForm = Nothing Then RadioButtonTestsForm = New RadioButtonTests : GetTestForm = RadioButtonTestsForm
+    Case 13
       If TimerTestsForm = Nothing Then TimerTestsForm = New TimerTests : GetTestForm = TimerTestsForm
     Case Else
       If FinishTestsForm = Nothing Then FinishTestsForm = New FinishTests : GetTestForm = FinishTestsForm

@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
 public @interface UsesPermissions {
 
   /**
-   * The names of the permissions seperated by commas.
+   * The names of the permissions separated by commas.
    *
    * @return  the permission name
    */

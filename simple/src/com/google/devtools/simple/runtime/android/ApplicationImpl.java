@@ -53,8 +53,28 @@ import java.util.List;
  */
 public final class ApplicationImpl extends Activity implements ApplicationFunctions {
 
+  /**
+   * Listener for distributing the Activity onResume() method to interested
+   * components.
+   */
+  public interface OnResumeListener {
+    public void onResume();
+  }
+
+  /**
+   * Listener for distributing the Activity onStop() method to interested
+   * components.
+   */
+  public interface OnStopListener {
+    public void onStop();
+  }
+
   // Activity context
   private static ApplicationImpl INSTANCE;
+
+  // Activity resume and stop listeners
+  private final List<OnResumeListener> onResumeListeners;
+  private final List<OnStopListener> onStopListeners;
 
   // List with menu item captions
   private final List<String>  menuItems;
@@ -87,6 +107,8 @@ public final class ApplicationImpl extends Activity implements ApplicationFuncti
     INSTANCE = this;
 
     menuItems = new ArrayList<String>();
+    onResumeListeners = new ArrayList<OnResumeListener>();
+    onStopListeners = new ArrayList<OnStopListener>();
   }
 
   @Override
@@ -217,6 +239,22 @@ public final class ApplicationImpl extends Activity implements ApplicationFuncti
     return gestureDetector.onTouchEvent(event);
   }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
+    for (OnResumeListener onResumeListener : onResumeListeners) {
+      onResumeListener.onResume();
+    }
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+    for (OnStopListener onStopListener : onStopListeners) {
+      onStopListener.onStop();
+    }
+  }
+
   /**
    * Sets the given view as the content of the root view of the application
    *
@@ -240,6 +278,42 @@ public final class ApplicationImpl extends Activity implements ApplicationFuncti
    */
   public boolean isActiveForm(FormImpl form) {
     return form == activeForm;
+  }
+
+  /**
+   * Adds the given listener to the onResume listeners.
+   *
+   * @param listener  listener to add
+   */
+  public void addOnResumeListener(OnResumeListener listener) {
+    onResumeListeners.add(listener);
+  }
+
+  /**
+   * Removes the given listener from the onResume listeners.
+   *
+   * @param listener  listener to remove
+   */
+  public void removeOnResumeListener(OnResumeListener listener) {
+    onResumeListeners.remove(listener);
+  }
+
+  /**
+   * Adds the given listener to the onStop listeners.
+   *
+   * @param listener  listener to add
+   */
+  public void addOnStopListener(OnStopListener listener) {
+    onStopListeners.add(listener);
+  }
+
+  /**
+   * Removes the given listener from the onStop listeners.
+   *
+   * @param listener  listener to remove
+   */
+  public void removeOnStopListener(OnStopListener listener) {
+    onStopListeners.remove(listener);
   }
 
   // ApplicationFunctions implementation
