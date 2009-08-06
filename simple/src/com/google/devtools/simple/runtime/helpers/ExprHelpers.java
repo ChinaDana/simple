@@ -37,7 +37,7 @@ public final class ExprHelpers {
    * @return  integral result
    */
   public static float idiv(float leftOp, float rightOp) {
-    return Math.round(leftOp / rightOp);
+    return (float) Math.floor(leftOp / rightOp);
   }
 
   /**
@@ -48,7 +48,7 @@ public final class ExprHelpers {
    * @return  integral result
    */
   public static double idiv(double leftOp, double rightOp) {
-    return Math.round(leftOp / rightOp);
+    return Math.floor(leftOp / rightOp);
   }
 
   /**

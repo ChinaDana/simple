@@ -963,6 +963,10 @@ public final class Scanner {
             }
             break;
 
+          case '\\':
+            tokenKind = TokenKind.TOK_INTEGERDIVIDE;
+            break;
+
           case '/':
             tokenKind = TokenKind.TOK_DIVIDE;
             break;
