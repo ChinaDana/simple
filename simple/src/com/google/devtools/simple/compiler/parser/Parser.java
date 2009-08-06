@@ -494,6 +494,18 @@ public final class Parser {
   }
 
   /*
+   * Skips the first identity operator and reports an error if there any additional ones following. 
+   */
+  private void skipIdentityOperator() {
+    TokenKind tokenKind = scanner.nextToken();  // Skip '-' or '+'
+
+    while (tokenKind == TokenKind.TOK_MINUS || tokenKind == TokenKind.TOK_PLUS) {
+      compiler.error(scanner.getTokenStartPosition(), Error.errUnexpected, tokenKind.toString());
+      tokenKind = scanner.nextToken();
+    }
+  }
+
+  /*
    * Parses partial expressions based on their priority. If the parser encounters an operator
    * with a priority higher than the current one, then it will complete parsing of the sub-
    * expression.
@@ -528,43 +540,43 @@ public final class Parser {
         scanner.nextToken();
         // TODO: what about Me.foo.bar?
         break;
-  
+
       case TOK_MINUS:
-        scanner.nextToken(); // Skip '-'
+        skipIdentityOperator();        
         expr = new NegationExpression(exprStartPosition, parseExpression(PRIO_NEGATION));
         break;
-  
+
       case TOK_NEW:
         expr = parseNewExpression();
         break;
-  
+
       case TOK_NOT:
         scanner.nextToken(); // Skip 'Not'
-        expr =  new NotExpression(exprStartPosition,
+        expr = new NotExpression(exprStartPosition,
             parseExpression(PRIO_LOGICALORBITOPERATION_NEGATION));
         break;
-        
+
       case TOK_NOTHING:
         scanner.nextToken(); // Skip 'Nothing'
         expr =  new NothingExpression(exprStartPosition);
         break;
-  
+
       case TOK_NUMERICCONSTANT:
         expr = new ConstantNumberExpression(exprStartPosition, scanner.getTokenValueNumber());
         scanner.nextToken();
         break;
-  
+
       case TOK_OPENPARENTHESIS:
         scanner.nextToken(); // Skip '('
         expr = parseExpression();
         acceptAndSkip(TokenKind.TOK_CLOSEPARENTHESIS);
         break;
-  
+
       case TOK_PLUS:
-        scanner.nextToken(); // Skip '+'
+        skipIdentityOperator();        
         expr = new IdentityExpression(exprStartPosition, parseExpression(PRIO_NEGATION));
         break;
-        
+
       case TOK_STRINGCONSTANT:
         expr = new ConstantStringExpression(exprStartPosition, scanner.getTokenValueString());
         scanner.nextToken();

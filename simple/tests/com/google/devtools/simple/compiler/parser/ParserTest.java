@@ -96,4 +96,31 @@ public class ParserTest extends TestCase {
 
     assertEquals(1, compiler.getErrorCount());
   }
+
+  /**
+   * Tests whether the Simple parser prohibits sequences of identity operators.
+   */
+  public void testErrorInIdentityOperator() {
+    try {
+      Scanner scanner = new Scanner(compiler,
+          "Sub Bar()\n"
+          + "  Dim n As Integer\n"
+          + "  n = -+n\n"
+          + "End Sub\n"
+          + "\n"
+          + "$Properties\n"
+          + "  $Source $Object\n"
+          + "$End $Properties\n");
+  
+      Parser parser = new Parser(compiler, scanner, "does.not.matter");
+      parser.parse();
+      compiler.resolve();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
+    }
+
+    assertEquals(1, compiler.getErrorCount());
+  }
 }
