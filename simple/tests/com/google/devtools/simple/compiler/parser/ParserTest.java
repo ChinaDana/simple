@@ -114,6 +114,32 @@ public class ParserTest extends TestCase {
   
       Parser parser = new Parser(compiler, scanner, "does.not.matter");
       parser.parse();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail();
+    }
+
+    assertEquals(1, compiler.getErrorCount());
+  }
+
+
+  /**
+   * Tests whether the Simple parser detects function wrong Exit statements.
+   */
+  public void testErrorInExitStatement() {
+    try {
+      Scanner scanner = new Scanner(compiler,
+          "Sub Bar()\n"
+          + "  Exit Function\n"
+          + "End Sub\n"
+          + "\n"
+          + "$Properties\n"
+          + "  $Source $Object\n"
+          + "$End $Properties\n");
+  
+      Parser parser = new Parser(compiler, scanner, "does.not.matter");
+      parser.parse();
       compiler.resolve();
 
     } catch (Exception e) {

@@ -23,6 +23,7 @@ import com.google.devtools.simple.classfiles.Method.Label;
 import com.google.devtools.simple.compiler.Compiler;
 import com.google.devtools.simple.compiler.Error;
 import com.google.devtools.simple.compiler.scanner.Scanner;
+import com.google.devtools.simple.compiler.scanner.TokenKind;
 import com.google.devtools.simple.compiler.scopes.LocalScope;
 import com.google.devtools.simple.compiler.RuntimeLoader;
 import com.google.devtools.simple.compiler.scopes.Scope;
@@ -446,6 +447,21 @@ public abstract class FunctionSymbol extends Symbol implements SymbolWithType {
    */
   public Method.Label getExitLabel() {
     return compilationInformation.exitLabel;
+  }
+
+  /**
+   * Returns the token to be expected after an Exit statement for the function.
+   *
+   * @return  exit token
+   */
+  public TokenKind getExitToken() {
+    if (compilationInformation.isProperty) {
+      return TokenKind.TOK_PROPERTY;
+    } else if (resultType != null) {
+      return TokenKind.TOK_FUNCTION;
+    } else {
+      return TokenKind.TOK_SUB;
+    }
   }
 
   @Override

@@ -71,7 +71,9 @@ public final class ExitStatement extends Statement {
       case TOK_FUNCTION:
       case TOK_PROPERTY:
       case TOK_SUB:
-        exitLabel = currentFunction.getExitLabel();
+        if (token == currentFunction.getExitToken()) {
+          exitLabel = currentFunction.getExitLabel();
+        }
         break;
     }
 

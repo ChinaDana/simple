@@ -18,6 +18,7 @@ package com.google.devtools.simple.compiler.symbols;
 
 import com.google.devtools.simple.compiler.Compiler;
 import com.google.devtools.simple.compiler.Error;
+import com.google.devtools.simple.compiler.scanner.TokenKind;
 import com.google.devtools.simple.compiler.scopes.ObjectScope;
 import com.google.devtools.simple.compiler.scopes.Scope;
 import com.google.devtools.simple.compiler.scopes.synthetic.ErrorScope;
@@ -72,6 +73,11 @@ public final class EventHandlerSymbol extends FunctionSymbol implements Instance
    */
   public String getEventName() {
     return eventName;
+  }
+
+  @Override
+  public TokenKind getExitToken() {
+    return TokenKind.TOK_EVENT;
   }
 
   @Override
