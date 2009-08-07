@@ -127,21 +127,21 @@ public class DatesTest extends TestCase {
   public void testDateValue() {
     // Check NullPointerException is thrown when the input string is null
     try {
-      Calendar date = Dates.DateValue(null);
+      Dates.DateValue(null);
       fail();
     } catch (NullPointerException expected) {
     }
 
     // Empty string is an illegal argument
     try {
-      Calendar date = Dates.DateValue("");
+      Dates.DateValue("");
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     // Another illegal argument
     try {
-      Calendar date = Dates.DateValue("abc");
+      Dates.DateValue("abc");
       fail();
     } catch (IllegalArgumentException expected) {
     }
@@ -182,7 +182,7 @@ public class DatesTest extends TestCase {
    */
   public void testFormatDate() {
     Calendar date = Dates.DateValue("04/21/2008 09:29:48");
-    assertEquals("April 21, 2008 9:29:48 AM PDT", Dates.FormatDate(date));
+    assertTrue(Dates.FormatDate(date).startsWith("April 21, 2008 9:29:48 AM "));
   }
 
   /**
