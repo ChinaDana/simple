@@ -52,6 +52,7 @@ public final class ByteType extends SmallIntegerType {
   }
 
   private void generateMakeByteSigned(Method m) {
+    m.generateInstrI2b();
     m.generateInstrInvokestatic(CONVERSION_HELPERS_INTERNAL_NAME, "byte2integer", "(B)I");
   }
 
