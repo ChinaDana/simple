@@ -19,6 +19,7 @@ package com.google.devtools.simple.compiler.symbols;
 import com.google.devtools.simple.classfiles.ClassFile;
 import com.google.devtools.simple.classfiles.Method;
 import com.google.devtools.simple.compiler.expressions.Expression;
+import com.google.devtools.simple.compiler.types.StringType;
 import com.google.devtools.simple.compiler.types.Type;
 
 import java.util.List;
@@ -69,6 +70,9 @@ public abstract class DataMemberSymbol extends VariableSymbol {
         dimension.generate(m);
       }
       getType().generateAllocateArray(m);
+      generateWrite(m);
+    } else if (getType() == StringType.stringType) {
+      getType().generateDefaultInitializationValue(m);
       generateWrite(m);
     }
   }

@@ -641,10 +641,10 @@ public class ObjectSymbol extends Symbol
     Method m = cf.newMethod((short) (Method.ACC_SYNTHETIC | Method.ACC_PUBLIC), "<clinit>", "()V");
     try {
       m.startCodeGeneration();
-  
+
       // Initialize statically sized data members
       for (DataMemberSymbol dataMember : dataMembers) {
-        if (dataMember instanceof ObjectDataMemberSymbol) {
+        if (dataMember.getClass() == ObjectDataMemberSymbol.class) {
           dataMember.generateInitializer(m);
         }
       }
