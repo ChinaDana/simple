@@ -248,8 +248,6 @@ public abstract class FunctionSymbol extends Symbol implements SymbolWithType {
   public void setIsProperty() {
     // This will cause generation of the @SimpleProperty annotation rather than @SimpleFunction.
     compilationInformation.isProperty = true;
-    // Remove this symbol so that it doesn't hide the corresponding property symbol.
-    definingObject.getScope().removeSymbol(this);
   }
 
   /**
