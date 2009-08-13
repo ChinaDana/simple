@@ -78,6 +78,8 @@ public final class EmailPickerImpl extends TextViewComponent
   public void Enabled(boolean enabled) {
     View view = getView();
     view.setEnabled(enabled);
+    view.setFocusable(enabled);
+    view.setFocusableInTouchMode(enabled);
     view.invalidate();
   }
 

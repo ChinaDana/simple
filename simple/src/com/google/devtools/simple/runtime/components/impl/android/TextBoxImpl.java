@@ -122,6 +122,8 @@ public final class TextBoxImpl extends TextViewComponent implements TextBox {
   public void Enabled(boolean enabled) {
     View view = getView();
     view.setEnabled(enabled);
+    view.setFocusable(enabled);
+    view.setFocusableInTouchMode(enabled);
     view.invalidate();
   }
 
