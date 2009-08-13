@@ -69,6 +69,9 @@ public final class AssignmentExpression extends BinaryExpression {
   public void generate(Method m) {
     leftOperand.generatePrepareWrite(m);
     rightOperand.generate(m);
+    if (type.isObjectType() || type.isArrayType()) {
+      m.generateInstrCheckcast(type.internalName());
+    }
     leftOperand.generateWrite(m);
   }
 
